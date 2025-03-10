@@ -35,6 +35,10 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+<<<<<<< HEAD
+=======
+*firebase-service-account.json
+>>>>>>> 23c2f10 (Añade firebase-service-account.json al .gitignore)
 
 # dotenv environment variable files
 .env
