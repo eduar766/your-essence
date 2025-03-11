@@ -17,4 +17,8 @@ export class SearchPerfumeUseCase {
   async searchBySeason(season: string): Promise<Perfume[]> {
     return this.perfumeRepository.searchBySeason(season);
   }
+
+  async searchById(id: string): Promise<Perfume[]> {
+    return this.perfumeRepository.searchById(id);
+  }
 }

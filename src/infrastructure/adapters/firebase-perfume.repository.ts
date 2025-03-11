@@ -71,6 +71,27 @@ export class FirebasePerfumeRepository extends PerfumeRepository {
     });
   }
 
+  async searchById(id: string): Promise<Perfume[]> {
+    const snapshot = await this.collection
+      .where('id', '==', id)
+      .get();
+    if (snapshot.empty) return [];
+
+    return snapshot.docs.map((doc) => {
+      const data = doc.data();
+      return new Perfume(
+        doc.id,
+        data.name,
+        data.brand,
+        data.description,
+        data.notes,
+        data.season,
+        data.occasion,
+        data.year,
+      );
+    });
+  }
+
   async save(perfume: Perfume): Promise<void> {
     if (!perfume.id || !perfume.name || !perfume.brand) {
       throw new Error('El perfume no tiene datos válidos para ser guardado.');
