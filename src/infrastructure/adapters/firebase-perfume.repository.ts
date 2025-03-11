@@ -98,6 +98,7 @@ export class FirebasePerfumeRepository extends PerfumeRepository {
     }
 
     await this.collection.doc(perfume.id).set({
+      id: perfume.id,
       name: perfume.name,
       brand: perfume.brand,
       description: perfume.description || 'Descripción no disponible',
