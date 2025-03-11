@@ -17,6 +17,10 @@ import { FirebasePerfumeRepository } from './infrastructure/adapters/firebase-pe
 import { PerfumeRepository } from './domain/port/perfume.repository';
 import { PopulatePerfumeUseCase } from './application/use-cases/populate-perfume.use-case';
 import { OpenAIService } from './infrastructure/adapters/openai.service';
+import { ReviewController } from './infrastructure/controllers/review.controller';
+import { SubmitReviewUseCase } from './application/use-cases/submit-review.use-case';
+import { FirebaseReviewRepository } from './infrastructure/adapters/firebase-review.repository';
+import { ReviewRepository } from './domain/port/review.repository';
 
 @Module({
   imports: [
@@ -27,7 +31,12 @@ import { OpenAIService } from './infrastructure/adapters/openai.service';
       },
     ]),
   ],
-  controllers: [AppController, ApiKeyController, PerfumeController],
+  controllers: [
+    AppController,
+    ApiKeyController,
+    PerfumeController,
+    ReviewController,
+  ],
   providers: [
     AppService,
     GenerateApiKeyUseCase,
@@ -39,6 +48,8 @@ import { OpenAIService } from './infrastructure/adapters/openai.service';
     PopulatePerfumeUseCase,
     { provide: PerfumeRepository, useClass: FirebasePerfumeRepository },
     OpenAIService,
+    SubmitReviewUseCase,
+    { provide: ReviewRepository, useClass: FirebaseReviewRepository },
   ],
 })
 export class AppModule {}
