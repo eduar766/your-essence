@@ -35,6 +35,7 @@ lerna-debug.log*
 !.vscode/launch.json
 !.vscode/extensions.json
 
+
 # dotenv environment variable files
 .env
 .env.development.local
@@ -54,3 +55,4 @@ pids
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
+src/infrastructure/config/firebase-service-account.json
