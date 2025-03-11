@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module, RequestMethod } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ApiKeyController } from './infrastructure/controllers/api-key.controller';
@@ -21,6 +21,7 @@ import { ReviewController } from './infrastructure/controllers/review.controller
 import { SubmitReviewUseCase } from './application/use-cases/submit-review.use-case';
 import { FirebaseReviewRepository } from './infrastructure/adapters/firebase-review.repository';
 import { ReviewRepository } from './domain/port/review.repository';
+import { ApiKeyMiddleware } from './infrastructure/middleware/api-key.middleware';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { ReviewRepository } from './domain/port/review.repository';
     ReviewController,
   ],
   providers: [
+    FirebaseApiKeyRepository,
     AppService,
     GenerateApiKeyUseCase,
     { provide: AbstractApiKeyRepository, useClass: FirebaseApiKeyRepository },
@@ -52,4 +54,11 @@ import { ReviewRepository } from './domain/port/review.repository';
     { provide: ReviewRepository, useClass: FirebaseReviewRepository },
   ],
 })
-export class AppModule {}
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer
+      .apply(ApiKeyMiddleware)
+      .exclude({ path: 'api-keys', method: RequestMethod.POST }) // Permitir generar API Keys sin validación
+      .forRoutes(ApiKeyController, PerfumeController, ReviewController);
+  }
+}

@@ -11,11 +11,15 @@ export class ApiKeyMiddleware implements NestMiddleware {
   constructor(private readonly apiKeyRepository: FirebaseApiKeyRepository) {}
 
   async use(req: Request, res: Response, next: NextFunction) {
-    const apiKey = req.headers['x-api-key'] as string;
-    if (!apiKey) throw new UnauthorizedException('API Key is required');
+    const apiKey = req.headers['x-api-key'];
+    if (!apiKey || typeof apiKey !== 'string') {
+      throw new UnauthorizedException('API Key requerida');
+    }
 
-    const existingKey = await this.apiKeyRepository.findByEmail(apiKey);
-    if (!existingKey) throw new UnauthorizedException('Invalid API Key');
+    const isValid = await this.apiKeyRepository.validateApiKey(apiKey);
+    if (!isValid) {
+      throw new UnauthorizedException('API Key inválida');
+    }
 
     next();
   }
