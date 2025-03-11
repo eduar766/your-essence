@@ -14,6 +14,9 @@ async function bootstrap() {
     .setVersion('1.0')
     .addBearerAuth()
     .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'api-key')
+    .setLicense('MIT', 'https://opensource.org/licenses/MIT')
+    .setContact(
+      'Eduardo Saavedra','https://www.saavedratech.dev/', 'eduar766@gmail.com')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/docs', app, document);
