@@ -1,8 +1,9 @@
 import { Controller, Post, Get, Param, Body } from '@nestjs/common';
-import { ApiBody, ApiOperation, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiBody, ApiOperation, ApiResponse, ApiSecurity, ApiTags } from '@nestjs/swagger';
 import { SubmitReviewUseCase } from 'src/application/use-cases/submit-review.use-case';
 
 @ApiTags('Reseñas')
+@ApiSecurity('x-api-key')
 @Controller('perfumes/:perfumeId/reviews')
 export class ReviewController {
   constructor(private readonly submitReviewUseCase: SubmitReviewUseCase) {}

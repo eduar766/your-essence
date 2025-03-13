@@ -13,7 +13,7 @@ async function bootstrap() {
     .setDescription('API para gestionar perfumes y reseñas')
     .setVersion('1.0')
     .addBearerAuth()
-    .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'api-key')
+    .addApiKey({ type: 'apiKey', name: 'x-api-key', in: 'header' }, 'x-api-key')
     .setLicense('MIT', 'https://opensource.org/licenses/MIT')
     .setContact(
       'Eduardo Saavedra',
