@@ -3,20 +3,22 @@ import * as dotenv from 'dotenv';
 
 dotenv.config();
 
-const firebaseCredentials = {
-  type: process.env.FIREBASE_TYPE,
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  private_key: process.env.FIREBASE_PRIVATE_KEY?.split(String.raw`\n`).join(
-    '\n',
-  ), // Reemplaza los saltos de línea en la clave
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  client_id: process.env.FIREBASE_CLIENT_ID,
-};
+const firebaseCredentials = process.env.FIREBASE_CREDENTIALS_BASE64
+  ? JSON.parse(
+      Buffer.from(process.env.FIREBASE_CREDENTIALS_BASE64, 'base64').toString(
+        'utf8',
+      ),
+    )
+  : null;
+
+if (!firebaseCredentials) {
+  throw new Error(
+    'No se encontraron credenciales de Firebase. Verifica la variable de entorno FIREBASE_CREDENTIALS_BASE64.',
+  );
+}
 
 admin.initializeApp({
-  credential: admin.credential.cert(
-    firebaseCredentials as admin.ServiceAccount,
-  ),
+  credential: admin.credential.cert(firebaseCredentials),
 });
 
 export const firestore = admin.firestore();
