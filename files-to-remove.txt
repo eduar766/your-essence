@@ -1,0 +1,1 @@
+src/infrastructure/config/firebase-service-account.json
